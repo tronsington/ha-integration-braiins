@@ -1,0 +1,32 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to BraiinsOS Miner",
+        "description": "Enter the IP address (or hostname) and CGMiner API port of your BraiinsOS miner.",
+        "data": {
+          "host": "Host / IP Address",
+          "port": "CGMiner API Port"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to the miner. Check the host/IP and port, and ensure the miner is online.",
+      "api_error": "The miner returned an unexpected API response. Check that BraiinsOS is running.",
+      "unknown": "An unexpected error occurred. Please try again."
+    },
+    "abort": {
+      "already_configured": "This miner is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "BraiinsOS Miner Options",
+        "data": {
+          "scan_interval": "Scan interval (seconds)"
+        }
+      }
+    }
+  }
+}

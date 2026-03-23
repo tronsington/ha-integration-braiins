@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Home Assistant Dev Server",
+      "runtimeExecutable": "hass",
+      "runtimeArgs": ["--config", "./config", "--debug"],
+      "port": 8123
+    },
+    {
+      "name": "BraiinsOS API Test (TEST_API.py)",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["../TEST_API.py"],
+      "port": 0
+    },
+    {
+      "name": "Pytest Integration Tests",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "pytest", "tests/", "-v"],
+      "port": 0
+    }
+  ]
+}

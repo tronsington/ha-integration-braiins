@@ -1,0 +1,10 @@
+{
+  "domain": "braiins",
+  "name": "Exergy - BraiinsOS Miner",
+  "config_flow": true,
+  "dependencies": [],
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "requirements": [],
+  "version": "1.0.0"
+}
