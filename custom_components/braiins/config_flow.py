@@ -16,7 +16,10 @@ from .const import (
     DOMAIN,
     DEFAULT_PORT,
     DEFAULT_SCAN_INTERVAL,
+    DEFAULT_GRPC_PORT,
     CONF_SCAN_INTERVAL,
+    CONF_PASSWORD,
+    CONF_GRPC_PORT,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -110,6 +113,10 @@ class BraiinsOptionsFlow(OptionsFlow):
         current_scan_interval = self._config_entry.options.get(
             CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL
         )
+        current_password = self._config_entry.options.get(CONF_PASSWORD, "")
+        current_grpc_port = self._config_entry.options.get(
+            CONF_GRPC_PORT, DEFAULT_GRPC_PORT
+        )
 
         return self.async_show_form(
             step_id="init",
@@ -118,6 +125,10 @@ class BraiinsOptionsFlow(OptionsFlow):
                     vol.Optional(
                         CONF_SCAN_INTERVAL, default=current_scan_interval
                     ): vol.All(int, vol.Range(min=5, max=300)),
+                    vol.Optional(CONF_PASSWORD, default=current_password): str,
+                    vol.Optional(
+                        CONF_GRPC_PORT, default=current_grpc_port
+                    ): vol.All(int, vol.Range(min=1, max=65535)),
                 }
             ),
         )

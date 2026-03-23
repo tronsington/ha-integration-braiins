@@ -1,11 +1,11 @@
 """Number entities for the Exergy - BraiinsOS Miner integration.
 
 The Power Target entity lets you set a desired wattage target in Home Assistant.
-This value is stored in HA state (persisted across restarts via RestoreEntity)
-and can be used in automations to alert when actual power deviates from the
-target. The BraiinsOS CGMiner API does not expose a power-set command, so
-the target is not sent to the miner directly — BraiinsOS autotuning manages
-actual power based on its internal configuration.
+This value is stored in HA state (persisted across restarts via RestoreEntity).
+When gRPC is configured (password set in options), the value is also sent
+directly to the miner via the BraiinsOS gRPC API (SetPowerTarget). If gRPC is
+not configured or unavailable, the target is stored locally only and can be
+used in automations to alert when actual power deviates from the target.
 """
 from __future__ import annotations
 
@@ -97,10 +97,23 @@ class BrainsPowerTargetNumber(
         return self._target
 
     async def async_set_native_value(self, value: float) -> None:
-        """Store the new target wattage (HA-side only)."""
+        """Store the new target wattage and, when gRPC is configured, send it to the miner."""
         self._target = value
         self.coordinator.target_power_watts = value
-        _LOGGER.debug(
-            "Power target set to %.0f W (stored in HA, not sent to miner)", value
-        )
+        _LOGGER.debug("Power target set to %.0f W (stored in HA)", value)
+
+        if self.coordinator.grpc_client is not None:
+            try:
+                confirmed_watts = await self.coordinator.grpc_client.set_power_target(
+                    int(value)
+                )
+                _LOGGER.info(
+                    "Power target sent to miner via gRPC; confirmed value: %d W",
+                    confirmed_watts,
+                )
+            except Exception as err:  # noqa: BLE001
+                _LOGGER.error(
+                    "gRPC SetPowerTarget failed (local value still stored): %s", err
+                )
+
         self.async_write_ha_state()

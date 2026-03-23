@@ -13,9 +13,13 @@ from .const import (
     PLATFORMS,
     DEFAULT_PORT,
     DEFAULT_SCAN_INTERVAL,
+    DEFAULT_GRPC_PORT,
     CONF_SCAN_INTERVAL,
+    CONF_PASSWORD,
+    CONF_GRPC_PORT,
 )
 from .coordinator import BraiinsDataUpdateCoordinator
+from .grpc_client import BraiinsGRPCClient
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -34,6 +38,24 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         host=host,
         scan_interval=scan_interval,
     )
+
+    # gRPC client setup (optional — requires password in options)
+    coordinator.grpc_client = None
+    password = entry.options.get(CONF_PASSWORD) or entry.data.get(CONF_PASSWORD)
+    if password:
+        grpc_port = entry.options.get(CONF_GRPC_PORT) or entry.data.get(
+            CONF_GRPC_PORT, DEFAULT_GRPC_PORT
+        )
+        grpc_client = BraiinsGRPCClient(host=host, port=grpc_port, password=password)
+        try:
+            await grpc_client.authenticate()
+            coordinator.grpc_client = grpc_client
+        except Exception as err:  # noqa: BLE001
+            _LOGGER.warning(
+                "gRPC authentication failed for %s; power target will be stored locally only: %s",
+                host,
+                err,
+            )
 
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = coordinator

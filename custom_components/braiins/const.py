@@ -10,17 +10,19 @@ PLATFORMS = [
     "binary_sensor",
     "switch",
     "button",
-    "select",
     "number",
 ]
 
 # Config entry keys
 CONF_SCAN_INTERVAL = "scan_interval"
+CONF_PASSWORD = "password"
+CONF_GRPC_PORT = "grpc_port"
 
 # Defaults
 DEFAULT_PORT = 4028
 DEFAULT_SCAN_INTERVAL = 30
 DEFAULT_TIMEOUT = 10
+DEFAULT_GRPC_PORT = 50051
 
 # CGMiner / BraiinsOS API commands
 CMD_VERSION = "version"
@@ -70,6 +72,7 @@ COMPUTED_BOARD_COUNT = "board_count"
 COMPUTED_ACTIVE_POOL_URL = "active_pool_url"
 COMPUTED_ACTIVE_POOL_USER = "active_pool_user"
 COMPUTED_ACTIVE_POOL_DIFF = "active_pool_diff"
+COMPUTED_ACTIVE_POOL_GROUP = "active_pool_group"
 COMPUTED_FW_VERSION = "fw_version"
 COMPUTED_MODEL = "hw_model"
 COMPUTED_IS_PAUSED = "is_paused"

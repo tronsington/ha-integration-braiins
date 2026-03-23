@@ -31,6 +31,7 @@ from .const import (
     COMPUTED_ACTIVE_POOL_URL,
     COMPUTED_ACTIVE_POOL_USER,
     COMPUTED_ACTIVE_POOL_DIFF,
+    COMPUTED_ACTIVE_POOL_GROUP,
     COMPUTED_FW_VERSION,
     COMPUTED_IS_PAUSED,
     COMPUTED_ONLINE,
@@ -62,6 +63,8 @@ class BraiinsDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self._device_info: DeviceInfo | None = None
         # Persisted target wattage set by the user via the number entity
         self.target_power_watts: float | None = None
+        # Optional gRPC client; set by __init__.py after authentication
+        self.grpc_client: Any = None
 
     # ------------------------------------------------------------------
     # Update logic
@@ -226,6 +229,18 @@ class BraiinsDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         # We preserve is_paused from previous data if connection is live
         prev_paused = (self.data or {}).get(COMPUTED_IS_PAUSED, False)
         computed[COMPUTED_IS_PAUSED] = prev_paused
+
+        # Active pool group name via gRPC (optional)
+        computed[COMPUTED_ACTIVE_POOL_GROUP] = None
+        if self.grpc_client is not None:
+            try:
+                groups = await self.grpc_client.get_pool_groups()
+                for group in groups:
+                    if group.get("active"):
+                        computed[COMPUTED_ACTIVE_POOL_GROUP] = group.get("name")
+                        break
+            except Exception as err:  # noqa: BLE001
+                _LOGGER.debug("gRPC GetPoolGroups failed (non-fatal): %s", err)
 
         data["computed"] = computed
 

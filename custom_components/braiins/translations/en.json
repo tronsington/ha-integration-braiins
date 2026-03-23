@@ -24,7 +24,9 @@
       "init": {
         "title": "BraiinsOS Miner Options",
         "data": {
-          "scan_interval": "Scan interval (seconds)"
+          "scan_interval": "Scan interval (seconds)",
+          "password": "Miner password (for gRPC power control)",
+          "grpc_port": "gRPC port"
         }
       }
     }

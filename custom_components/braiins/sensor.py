@@ -42,6 +42,7 @@ from .const import (
     COMPUTED_ACTIVE_POOL_URL,
     COMPUTED_ACTIVE_POOL_USER,
     COMPUTED_ACTIVE_POOL_DIFF,
+    COMPUTED_ACTIVE_POOL_GROUP,
     COMPUTED_FW_VERSION,
     COMPUTED_ONLINE,
 )
@@ -289,6 +290,13 @@ SENSOR_TYPES: tuple[BrainsSensorEntityDescription, ...] = (
         entity_category=EntityCategory.DIAGNOSTIC,
         entity_registry_enabled_default=False,
         value_fn=lambda c: c.get_computed(COMPUTED_ACTIVE_POOL_DIFF),
+    ),
+    BrainsSensorEntityDescription(
+        key="pool_group",
+        name="Pool Group",
+        icon="mdi:server-network",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda c: c.get_computed(COMPUTED_ACTIVE_POOL_GROUP),
     ),
     # ── System ──────────────────────────────────────────────────────────────
     BrainsSensorEntityDescription(

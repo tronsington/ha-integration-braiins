@@ -8,6 +8,6 @@
   "codeowners": ["@tronsington"],
   "integration_type": "device",
   "iot_class": "local_polling",
-  "requirements": [],
+  "requirements": ["grpcio>=1.47.0", "protobuf>=4.21.0"],
   "version": "1.0.0"
 }
