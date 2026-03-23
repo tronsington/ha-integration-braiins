@@ -70,8 +70,8 @@ SENSOR_TYPES: tuple[BrainsSensorEntityDescription, ...] = (
         state_class=SensorStateClass.MEASUREMENT,
         icon="mdi:pickaxe",
         value_fn=lambda c: (
-            round(float(c.get_value("summary.GHS 5s")) / 1000, 4)
-            if c.get_value("summary.GHS 5s") not in (None, 0)
+            round(float(c.get_value("summary.MHS 5s")) / 1_000_000, 4)
+            if c.get_value("summary.MHS 5s") not in (None, 0)
             else None
         ),
     ),
@@ -82,8 +82,8 @@ SENSOR_TYPES: tuple[BrainsSensorEntityDescription, ...] = (
         state_class=SensorStateClass.MEASUREMENT,
         icon="mdi:pickaxe",
         value_fn=lambda c: (
-            round(float(c.get_value("summary.GHS av")) / 1000, 4)
-            if c.get_value("summary.GHS av") not in (None, 0)
+            round(float(c.get_value("summary.MHS av")) / 1_000_000, 4)
+            if c.get_value("summary.MHS av") not in (None, 0)
             else None
         ),
     ),

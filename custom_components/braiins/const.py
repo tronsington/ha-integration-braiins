@@ -31,6 +31,7 @@ CMD_CONFIG = "config"
 CMD_FANS = "fans"
 CMD_TEMPS = "temps"
 CMD_TUNERSTATUS = "tunerstatus"
+CMD_DEVDETAILS = "devdetails"
 CMD_PAUSE = "pause"
 CMD_RESUME = "resume"
 CMD_SWITCHPOOL = "switchpool"
@@ -38,7 +39,7 @@ CMD_ENABLEPOOL = "enablepool"
 CMD_DISABLEPOOL = "disablepool"
 
 # Combined fetch command
-CMD_ALL = "summary+version+pools+fans+temps+tunerstatus+devs"
+CMD_ALL = "summary+version+pools+fans+temps+tunerstatus+devs+devdetails"
 
 # Coordinator data keys
 DATA_SUMMARY = "summary"
@@ -70,5 +71,6 @@ COMPUTED_ACTIVE_POOL_URL = "active_pool_url"
 COMPUTED_ACTIVE_POOL_USER = "active_pool_user"
 COMPUTED_ACTIVE_POOL_DIFF = "active_pool_diff"
 COMPUTED_FW_VERSION = "fw_version"
+COMPUTED_MODEL = "hw_model"
 COMPUTED_IS_PAUSED = "is_paused"
 COMPUTED_ONLINE = "online"
